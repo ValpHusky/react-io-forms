@@ -1,6 +1,9 @@
-import InputFactory from '../core/InputFactory'
 import TextInput from  './TextInput'
-import RangeInput from './RangeInput'
+import FileInput from './FileInput'
+import CheckboxInput from './CheckboxInput'
+import RadioInput from './RadioInput'
+import SelectInput from './SelectInput'
+import TextAreaInput from './TextAreaInput'
 
 
 /** Entries of Inputs available for the default input registry */
@@ -18,7 +21,5 @@ const entry = [
     { type: ['select'], component: SelectInput },
     { type: ['textarea'], component: TextAreaInput }
 ]
-
-InputFactory.register('default', entry)
 
 export default entry

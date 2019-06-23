@@ -2,26 +2,28 @@ import * as React from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types';
 
-import { IOInputCollectorContext } from './providers/Form'
-import { IOInputValidatorContext } from './providers/Validator'
-import { IOInputMessageContext } from './providers/Message'
-import { IOInputRegistryContext } from './providers/Registry'
-import { IOInputLinkageContext } from './providers/Linkage'
+import { IOInputCollectorContext } from './IOForm'
+import { IOInputValidatorContext } from './ContextValidator'
+import { IOInputMessageContext } from './ContextMessage'
+import { IOInputRegistryContext } from './ContextRegistry'
+import { IOInputLinkageContext } from './ContextLinkage'
 import { include, exclude } from './utils'
 
+import IOForm from './IOForm'
 import ProxyInput from './core/ProxyInput'
-import './@default'
+import InputFactory from './core/InputFactory'
+import defaultRegistry from './default'
 
-export * from './providers/Form'
-export * from './providers/Validator'
-export * from './providers/Message'
-export * from './providers/Registry'
+
+export * from './ContextValidator'
+export * from './ContextMessage'
+export * from './ContextRegistry'
 export * from './core/InputError'
 export * from './utils'
 
 
 /** This React Component Wraps the logic of the regular input fields to add validations and other controls through simple declarative components */
-const IOInput = ({ children, ...props}) => (
+export const IOInput = ({ children, ...props}) => (
     <IOInputCollectorContext.Consumer>
         {form =>
             <IOInputValidatorContext.Consumer>
@@ -130,7 +132,12 @@ export const withIO = (type, registry = 'default') => Component => {
     }
 }
 
-export default IOInput
+/** DEFAULT REGISTRY */
+InputFactory.register('default', defaultRegistry)
+
+/** DEFAULT EXPORT */
+IOForm.Input = IOInput
+export default IOForm
 
 
 

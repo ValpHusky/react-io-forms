@@ -1,13 +1,13 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types';
-import { MessageContext } from './Message'
-import { LinkageContext } from './Linkage'
-import { InputError } from '../core/InputError';
+import { MessageContext } from './ContextMessage'
+import { LinkageContext } from './ContextLinkage'
+import { InputError } from './core/InputError';
 
 export const IOInputCollectorContext = React.createContext(null)
 
 /** Collects the information for any child node of type IOInput */
-export class IOInputForm extends React.PureComponent {
+export default class IOForm extends React.PureComponent {
     static propTypes = {
         /** Sets the id of the form tag element */
         id: PropTypes.string,

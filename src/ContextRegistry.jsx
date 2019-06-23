@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import * as PropTypes from 'prop-types';
-import InputFactory from '../core/InputFactory';
+import InputFactory from './core/InputFactory';
 
 export const IOInputRegistryContext = React.createContext(null)
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { className } from './utils';
 
-class TextInput extends React.PureComponent {
+class RadioInput extends React.PureComponent {
     static propTypes = {
         value: PropTypes.any,
         /** INJECTED FROM ProxyInput */
@@ -15,21 +15,21 @@ class TextInput extends React.PureComponent {
     static emptyValue = ''
 
     state = {
-        selected: null
+        checked: null
     }
 
     constructor(props) {
         super(props)
 
         this.state = {
-            selected: props.value
+            checked: props.value
         }
     }
 
     componentDidMount() {
         const { value, setValue} = this.props
-        const { selected } = this.state 
-        setValue(selected ? value : null)
+        const { checked } = this.state 
+        setValue(checked ? value : null)
 
         this.extractOptions()
     }
@@ -54,33 +54,32 @@ class TextInput extends React.PureComponent {
 
     onChange = (value) => {
         const { setValue } = this.props
-        this.setState({ selected: value })
+        this.setState({ checked: value })
         setValue(value)
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message }, setValue, value, children, ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message }, setValue, value, children, ...rest } = this.props
         const { options, checked } = this.state
-
+        
         return (
             <div data-message={message} className={className(type, valid, invalid)}>
-                <select
-                    type={type}
-                    onChange={(e) => setValue(e.target.value)}
-                    {...rest}
-                >
-                    {options && options.map(option => (
-                        <option
-                            selected={option.value === checked ? 'selected' : undefined}
+                {options && options.map(option => (
+                    <div className="iof-single-radio">
+                        <input
+                            id={`radio_${name}_${option.value.toString()}`}
+                            type="radio"
                             value={option.value}
-                        >
-                            {option.label}
-                        </option>
-                    ))}
-                </select>
+                            onChange={e => this.onChange(option.value)}
+                            checked={option.value === checked}
+                            {...rest}
+                        />
+                        <label for={`radio_${name}_${option.value.toString()}`}>{option.label}</label>
+                    </div>
+                ))}
             </div>
         )
     }
 }
 
-export default TextInput
+export default RadioInput

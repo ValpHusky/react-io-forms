@@ -2,8 +2,9 @@ import * as React from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types';
 import InputFactory from './InputFactory';
+import Observable from './Observable';
+
 import { InputError } from './InputError';
-import { Observable } from '../utils';
 import { SkipFieldError } from './SkipFieldError';
 
 /** Core Component of the IOForms Library. This component renders the real input */

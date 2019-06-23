@@ -1,6 +1,6 @@
 {
   "name": "react-io-forms",
-  "version": "1.0.0",
+  "version": "1.1.3",
   "description": "Simple, functional, scalable input & forms for React.js",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,8 @@
     "React.js",
     "input",
     "form",
+    "ioforms",
+    "io-forms",
     "React"
   ],
   "author": "Sergio Gomez <valphusky>",
@@ -26,8 +28,10 @@
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "babel-plugin-module-resolver": "^3.2.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

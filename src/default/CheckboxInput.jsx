@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { className } from './utils';
 
-class TextInput extends React.PureComponent {
+class CheckboxInput extends React.PureComponent {
     static propTypes = {
         value: PropTypes.any,
         /** INJECTED FROM ProxyInput */
@@ -29,4 +29,4 @@ class TextInput extends React.PureComponent {
     }
 }
 
-export default TextInput
+export default CheckboxInput
