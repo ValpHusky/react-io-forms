@@ -1,0 +1,41 @@
+{
+  "name": "react-io-forms",
+  "version": "1.0.0",
+  "description": "Simple, functional, scalable input & forms for React.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/babel src --out-file index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ValpHusky/react-io-forms.git"
+  },
+  "keywords": [
+    "React.js",
+    "input",
+    "form",
+    "React"
+  ],
+  "author": "Sergio Gomez <valphusky>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ValpHusky/react-io-forms/issues"
+  },
+  "homepage": "https://github.com/ValpHusky/react-io-forms#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "lodash": "^4.17.11",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.5",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  }
+}
