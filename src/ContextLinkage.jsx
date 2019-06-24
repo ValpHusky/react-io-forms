@@ -16,9 +16,9 @@ export class LinkageContext extends React.Component {
         delete this.fields[name]
     }
 
-    valueChanged = ({ value, props }) => {
-        if (props.link) {
-            this.notify(props.link, value)
+    valueChanged = ({ value, ioProps }) => {
+        if (ioProps.link) {
+            this.notify(ioProps.link, value)
         }
     }
 

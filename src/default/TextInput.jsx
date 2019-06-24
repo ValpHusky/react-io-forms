@@ -12,16 +12,17 @@ class TextInput extends React.PureComponent {
     }
 
     /** Indicates the ProxyInput layer what value should be taken as default */
-    static emptyValue = null
+    static emptyValue = ''
 
     render() {
-        const { ioProps: { type, valid, invalid, message }, setValue, value, ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, ...rest } = this.props
         return (
             <div data-message={message} className={className(type, valid, invalid)}>
                 <input
                     type={type}
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
+                    name={name}
                     {...rest}
                 />
             </div>

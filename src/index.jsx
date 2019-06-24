@@ -2,14 +2,13 @@ import * as React from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types';
 
-import { IOInputCollectorContext } from './IOForm'
+import IOForm, { IOInputCollectorContext } from './IOForm'
 import { IOInputValidatorContext } from './ContextValidator'
 import { IOInputMessageContext } from './ContextMessage'
 import { IOInputRegistryContext } from './ContextRegistry'
 import { IOInputLinkageContext } from './ContextLinkage'
 import { include, exclude } from './utils'
 
-import IOForm from './IOForm'
 import ProxyInput from './core/ProxyInput'
 import InputFactory from './core/InputFactory'
 import defaultRegistry from './default'
@@ -105,7 +104,7 @@ IOInput.propTypes = {
     /** Function to use as filter for any outgoing value from the I/O flow to be serialized */
     filterOut: PropTypes.func,
     /** Fields to link. Any value change will be propagated to the fields within the same IOForm that match the link name and the field name */
-    link: PropTypes.oneOf([ PropTypes.array, PropTypes.string ])
+    link: PropTypes.oneOfType([ PropTypes.array, PropTypes.string ])
 }
 
 IOInput.defaultProps = {

@@ -11,6 +11,7 @@ class InputFactory {
     */
     static register(registry, entry) {
         if (registry && entry && entry.length) {
+            
             if (!InputFactory.registry[registry]) {
                 InputFactory.registry[registry] = {}
 
@@ -20,6 +21,7 @@ class InputFactory {
             }
             return entry;
         }
+        InputFactory.registry[registry]
         throw new Error(`[IOInput]InputFactory::register Given params registry(${registry}) and entry(${entry}) cannot be null or empty.`)
     }
 
@@ -56,7 +58,7 @@ class InputFactory {
     * @param {string} type Type of the input
     */
     static get(type, registry = 'default') {
-        let Component = InputFactory.registry[registry][type]
+        let Component = InputFactory.registry[registry] ? InputFactory.registry[registry][type] : null
         if (!Component) {
             Component = InputFactory.registry['default'][type]
         }

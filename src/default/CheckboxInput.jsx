@@ -15,10 +15,11 @@ class CheckboxInput extends React.PureComponent {
     static emptyValue = false
 
     render() {
-        const { ioProps: { type, valid, invalid, message }, setValue, value, ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, ...rest } = this.props 
         return (
             <div data-message={message} className={className(type, valid, invalid)}>
                 <input
+                    name={name}
                     type={type}
                     onChange={(e) => setValue(e.target.value)}
                     value={value}

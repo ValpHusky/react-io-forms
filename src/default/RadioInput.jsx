@@ -59,7 +59,7 @@ class RadioInput extends React.PureComponent {
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message }, setValue, value, children, ...rest } = this.props
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, ...rest } = this.props
         const { options, checked } = this.state
         
         return (

@@ -15,20 +15,24 @@ class ProxyInput extends React.PureComponent  {
         /** IO Unique props for the Proxy Input to consume */
         ioProps: PropTypes.object,
         /** Standard input props delivered by the implementor all the way to the core component */
-        standardProps: PropTypes.string
+        standardProps: PropTypes.object
     }
 
     observer = new Observable()
     controllerReference = null
     Component = null
+    state = {}
 
     constructor(props) {
         super(props)
 
-        this.Component = InputFactory.get(type, _.get(props, 'contextProps.registry', 'default'))
+        this.Component = InputFactory.get(
+            _.get(props, 'ioProps.type','default'), 
+            _.get(props, 'contextProps.registry', 'default')
+        )
 
         this.state = {
-            value: this.filterIn(_.get(props, 'ioProps.value')),
+            value: this.getInitialValue(props),
             invalid: _.get(props, 'ioProps.invalid', false),
             valid: _.get(props, 'ioProps.valid', false),
             message: ''
@@ -81,6 +85,14 @@ class ProxyInput extends React.PureComponent  {
         this.observer = new Observable()
     }
 
+    getInitialValue(props) {
+        let value = this.filterIn(_.get(props, 'ioProps.value'))
+        if (value === undefined || value === null) {
+            value = this.Component.emptyValue !== undefined ? this.Component.emptyValue : ''
+        }
+        return value
+    }
+
     validProps(props) {
         const { ioProps } = props
         if (!_.get(ioProps, 'name')) {
@@ -126,13 +138,12 @@ class ProxyInput extends React.PureComponent  {
         const shouldNotfityValidity = !!validate
         let val;
 
-        this.verify(value, validate)
-        this.setState({ invalid: false, valid: validity })
+        await this.verify(value, validate)
+        this.setState({ invalid: false, valid: shouldNotfityValidity })
 
         _.defer(() => {
-            shouldNotfityValidity && validMessage && this.notify(validMessage)
+            shouldNotfityValidity && validMessage && this.info(validMessage)
             shouldNotfityValidity && onValid && onValid(val)
-            this.clearMessage()
         })
         val = this.filterOut(value)
 
@@ -145,8 +156,8 @@ class ProxyInput extends React.PureComponent  {
     notify = async (message) => {
         const { onInvalid, name } = this.props.ioProps
         if (message) {
+            
             if (message instanceof InputError) {
-                
                 if (!message.names() || message.includes(name)) {
                     this.setState({ invalid: true, valid: false })
                     onInvalid && onInvalid(message, name)
@@ -161,18 +172,18 @@ class ProxyInput extends React.PureComponent  {
         }
     }
 
-    filterIn(value, origin = null) {
+    filterIn = (value, origin = null) => {
         const { filterIn, name } = this.props.ioProps
         const { value: currentValue } = this.state
         return filterIn ? filterIn(value, origin || name, currentValue) : value
     }
 
-    filterOut(value) {
+    filterOut = (value) => {
         const { filterOut } = this.props.ioProps
         return filterOut ? filterOut(value): value
     }
 
-    verify(value, validate) {
+    async verify(value, validate) {
         const { validation } = this.props.contextProps
         const { required, name, invalidMessage } = this.props.ioProps
         
@@ -247,14 +258,14 @@ class ProxyInput extends React.PureComponent  {
                 res(value)
             })
         })
-        .then(value => {
-            this.runcycle()
+        .then(async value => {
+            await this.runcycle()
             this.observer.notify({ value: this.filterOut(value), ioProps: this.props.ioProps })
         })
         .catch(e => {
             this.notify(e)
             this.observer.notify({ value: this.filterOut(value), ioProps: this.props.ioProps, error: e })
-            throw e
+            // throw e
         })
     }
 

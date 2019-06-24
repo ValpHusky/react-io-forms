@@ -48,6 +48,7 @@ export default class IOForm extends React.PureComponent {
     onSubmit = async (e) => {
         const { onSubmit, reset } = this.props
         e.preventDefault()
+        console.log('Submit')
         if (!this.lock) {
             this.lock = true
             const values = await this.collect()
@@ -80,6 +81,7 @@ export default class IOForm extends React.PureComponent {
                 this.serializeInto(values, i, await field.collect())
             } catch(e) {
                 if (e instanceof InputError) {
+                    console.log('IOForm::Serialization ended in error:', e)
                     return null
                 }
             }
