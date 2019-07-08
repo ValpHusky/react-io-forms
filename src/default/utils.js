@@ -4,7 +4,7 @@ export function classNameByValidity(valid, invalid) {
     return `${valid && !invalid ? 'valid' : ''} ${invalid ? 'invalid' : ''}`.trim()
 }
 
-export function className(type, valid, invalid) {
+export function classNameCreate(type, valid, invalid) {
     return `iof-input iof-${type} ${classNameByValidity(valid, invalid)}`.trim()
 }
 

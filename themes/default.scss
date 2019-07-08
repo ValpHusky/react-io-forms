@@ -1,0 +1,67 @@
+$iof-color-disabled: #f1f1f1 !default;
+$iof-color-valid: #0ec56a !default;
+$iof-color-invalid: #bb0e48 !default;
+$iof-color-border: #eaeaea !default;
+$iof-color-submit: #efefef !default;
+$iof-color-reset: #e0e0e0 !default;
+
+
+.iof-input {
+    display: flex;
+    position: relative;
+    border-radius: 4px;
+    border: 1px solid $iof-color-border;
+    padding: 0.5rem;
+    font-size: 90%;
+
+    & > label.iof-radio-label {
+        margin: 0 0.3rem;
+    }
+
+    &.iof-radio {
+        align-items: center;
+    }
+
+    &[disabled] {
+        background-color: $iof-color-disabled
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &.valid {
+        box-shadow: 0px 0px 2px $iof-color-valid;
+    }
+    &.invalid {
+        box-shadow: 0px 0px 2px $iof-color-invalid;
+    }
+
+  
+}
+
+.iof-message {
+  content: attr(data-message);
+  display: inline-flex;
+}
+
+button[type=submit], button[type=reset] {
+    padding: 0.4rem;
+    font-size: 100%;
+    background-color: $iof-color-submit;
+    border: none;
+    border-radius: 4px;
+    color: #333;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #ddd;
+    }
+    &:focus,&:active {
+        outline: none;
+    }
+}
+
+button[type=reset] {
+    background-color: $iof-color-reset;
+}

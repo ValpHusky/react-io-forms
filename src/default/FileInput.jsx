@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { className } from './utils';
+import { classNameCreate } from './utils';
 
 class FileInput extends React.PureComponent {
     static propTypes = {
@@ -32,17 +32,16 @@ class FileInput extends React.PureComponent {
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', ...rest } = this.props 
         return (
-            <div data-message={message} className={className(type, valid, invalid)}>
-                <input
-                    name={name}
-                    type={type}
-                    innerRef={(e) => { this.fileinput = e }}
-                    onChange={this.onChange}
-                    {...rest}
-                />
-            </div>
+            <input
+                data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
+                name={name}
+                type={type}
+                innerRef={(e) => { this.fileinput = e }}
+                onChange={this.onChange}
+                {...rest}
+            />
         )
     }
 }

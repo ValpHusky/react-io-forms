@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InputFactory from './InputFactory';
 import Observable from './Observable';
 
-import { InputError } from './InputError';
+import { InputError, EmptyValueError } from './InputError';
 import { SkipFieldError } from './SkipFieldError';
 
 /** Core Component of the IOForms Library. This component renders the real input */
@@ -108,7 +108,7 @@ class ProxyInput extends React.PureComponent  {
 
     isEmptyValue(value) {
         const emptyValue = _.get(this.Component, 'emptyValue', '')
-        return this.isEqual(value, emptyValue)
+        return (value === null || value === undefined || this.isEqual(value, emptyValue))
     }
 
     runcycle = async () => {
@@ -134,7 +134,7 @@ class ProxyInput extends React.PureComponent  {
 
     collect = async (strict = false) => {
         const { value } = this.state
-        const { validate, validMessage, onValid, exclude } = this.props.ioProps
+        const { validate, validMessage, onValid, exclude, include } = this.props.ioProps
         const shouldNotfityValidity = !!validate
         let val;
 
@@ -146,8 +146,7 @@ class ProxyInput extends React.PureComponent  {
             shouldNotfityValidity && onValid && onValid(val)
         })
         val = this.filterOut(value)
-
-        if (strict && ((!include && this.isEmptyValue(val)) || exclude )) {
+        if (strict && (exclude || (!include && this.isEmptyValue(val))) ) {
             throw new SkipFieldError()
         }
         return val
@@ -156,7 +155,7 @@ class ProxyInput extends React.PureComponent  {
     notify = async (message) => {
         const { onInvalid, name } = this.props.ioProps
         if (message) {
-            
+            console.log(message);
             if (message instanceof InputError) {
                 if (!message.names() || message.includes(name)) {
                     this.setState({ invalid: true, valid: false })
@@ -191,7 +190,7 @@ class ProxyInput extends React.PureComponent  {
         const messageDefault  = _.get(validation, `messages.default`)
         const validator = this.getValidationFunction(validate)
 
-        if (!required || this.verifyEmptiness(value)) {
+        if (!required || !this.isEmptyValue(value)) {
             if (validate) {
                 const { valid, message } = validator(value)
                 if (valid) {
@@ -201,12 +200,7 @@ class ProxyInput extends React.PureComponent  {
             }
             return value
         }
-        throw new InputError(messageEmpty, name, { value })
-    }
-
-    verifyEmptiness(value) {
-        const emptyValue = _.get(this.Component, 'emptyValue', '')
-        return value !== undefined && value !== null && !this.isEqual(value, emptyValue)
+        throw new EmptyValueError(messageEmpty, name, { value })
     }
 
     getValidationFunction(validate, proxymessage = null) {
@@ -281,7 +275,6 @@ class ProxyInput extends React.PureComponent  {
     sendMessage(message, value, inputError = null) {
         const { messages } = this.props.contextProps
         const { onMessage, name } = this.props.ioProps
-        
         messages.set && messages.set(message, name)
         this.setState({ message })
 

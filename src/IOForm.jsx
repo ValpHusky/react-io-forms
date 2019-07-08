@@ -48,7 +48,6 @@ export default class IOForm extends React.PureComponent {
     onSubmit = async (e) => {
         const { onSubmit, reset } = this.props
         e.preventDefault()
-        console.log('Submit')
         if (!this.lock) {
             this.lock = true
             const values = await this.collect()
@@ -78,7 +77,7 @@ export default class IOForm extends React.PureComponent {
         for(const i in this.fields) {
             try {
                 const field = this.fields[i]
-                this.serializeInto(values, i, await field.collect())
+                this.serializeInto(values, i, await field.collect(true))
             } catch(e) {
                 if (e instanceof InputError) {
                     console.log('IOForm::Serialization ended in error:', e)
@@ -113,7 +112,7 @@ export default class IOForm extends React.PureComponent {
         e.preventDefault()
         e.stopPropagation()
 
-        this.reset()
+        !this.lock && this.reset()
     }
 
     render() {
@@ -121,7 +120,8 @@ export default class IOForm extends React.PureComponent {
             <MessageContext>
                 <LinkageContext>
                     <IOInputCollectorContext.Provider value={{ register: this.register, unregister: this.unregister }}>
-                        <form onReset={this.onReset} id={this.props.id || undefined} onSubmit={this.onSubmit}>
+                        <form className="iof-main" onReset={this.onReset} id={this.props.id || undefined} onSubmit={this.onSubmit}>
+                            <button style={{ display: 'none' }} />
                             {this.props.children}
                         </form>
                     </IOInputCollectorContext.Provider>

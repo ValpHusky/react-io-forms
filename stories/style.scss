@@ -1,0 +1,37 @@
+
+.iof-main {
+
+    font-family: sans-serif;
+
+    padding: 2rem 3rem;
+    background-color: white;
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
+
+    & > div {
+        display: flex;
+        margin: 1rem 0;
+        justify-content: space-between;
+
+        &.input-group {
+            flex-flow: column;
+
+            & > * {
+                justify-content: flex-start;
+            }
+        }
+
+        & > * {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            margin: 0.3rem;
+            justify-content: center;
+        }
+    }
+
+    label {
+        color: #4a4a4a;
+        font-size: 90%;
+        margin-bottom: 0.3rem;
+    }
+}

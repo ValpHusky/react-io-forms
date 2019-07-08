@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { className } from './utils';
+import { classNameCreate } from './utils';
 
 class TextAreaInput extends React.PureComponent {
     static propTypes = {
@@ -15,16 +15,15 @@ class TextAreaInput extends React.PureComponent {
     static emptyValue = ''
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', ...rest } = this.props 
         return (
-            <div data-message={message} className={className(type, valid, invalid)}>
-                <textarea
-                    name={name}
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
-                    {...rest}
-                />
-            </div>
+            <textarea
+                data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
+                name={name}
+                onChange={(e) => setValue(e.target.value)}
+                value={value}
+                {...rest}
+            />
         )
     }
 }

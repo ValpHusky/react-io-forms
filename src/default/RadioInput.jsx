@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types';
-import { className } from './utils';
+import { classNameCreate } from './utils';
 
 class RadioInput extends React.PureComponent {
     static propTypes = {
@@ -35,7 +35,7 @@ class RadioInput extends React.PureComponent {
     }
 
     extractOptions() {
-        const { children, options } = this.props.innerProps
+        const { children, options } = this.props
         
         if (!options) {
             const synOptions = []
@@ -59,13 +59,13 @@ class RadioInput extends React.PureComponent {
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, ...rest } = this.props
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, className = '', ...rest } = this.props
         const { options, checked } = this.state
         
         return (
-            <div data-message={message} className={className(type, valid, invalid)}>
+            <Fragment>
                 {options && options.map(option => (
-                    <div className="iof-single-radio">
+                    <div data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}>
                         <input
                             id={`radio_${name}_${option.value.toString()}`}
                             type="radio"
@@ -74,10 +74,10 @@ class RadioInput extends React.PureComponent {
                             checked={option.value === checked}
                             {...rest}
                         />
-                        <label for={`radio_${name}_${option.value.toString()}`}>{option.label}</label>
+                        <label className="iof-radio-label" htmlFor={`radio_${name}_${option.value.toString()}`}>{option.label}</label>
                     </div>
                 ))}
-            </div>
+            </Fragment>
         )
     }
 }

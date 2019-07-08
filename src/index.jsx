@@ -3,6 +3,7 @@ import _ from 'lodash'
 import PropTypes from 'prop-types';
 
 import IOForm, { IOInputCollectorContext } from './IOForm'
+import { IOInputMessage } from './ContextMessage';
 import { IOInputValidatorContext } from './ContextValidator'
 import { IOInputMessageContext } from './ContextMessage'
 import { IOInputRegistryContext } from './ContextRegistry'
@@ -22,7 +23,7 @@ export * from './utils'
 
 
 /** This React Component Wraps the logic of the regular input fields to add validations and other controls through simple declarative components */
-export const IOInput = ({ children, ...props}) => (
+export const IOInput = ({...props}) => (
     <IOInputCollectorContext.Consumer>
         {form =>
             <IOInputValidatorContext.Consumer>
@@ -37,9 +38,7 @@ export const IOInput = ({ children, ...props}) => (
                                         contextProps={{ form, validation, messages, registry, linkage}}
                                         ioProps={include(props, IOInput.propTypes)}
                                         standardProps={exclude(props, IOInput.propTypes)}
-                                    >
-                                        {children}
-                                    </ProxyInput>
+                                    />
                                 }
                                 </IOInputLinkageContext.Consumer>
                             }
@@ -136,6 +135,8 @@ InputFactory.register('default', defaultRegistry)
 
 /** DEFAULT EXPORT */
 IOForm.Input = IOInput
+IOForm.Message = IOInputMessage
+
 export default IOForm
 
 

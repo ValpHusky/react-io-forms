@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { className } from './utils';
+import { classNameCreate } from './utils';
 
 class CheckboxInput extends React.PureComponent {
     static propTypes = {
@@ -14,18 +14,22 @@ class CheckboxInput extends React.PureComponent {
     /** Indicates the ProxyInput layer what value should be taken as empty */
     static emptyValue = false
 
+    onChange(value) {
+        this.props.setValue(value)
+    }
+
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', ...rest } = this.props 
         return (
-            <div data-message={message} className={className(type, valid, invalid)}>
-                <input
-                    name={name}
-                    type={type}
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
-                    {...rest}
-                />
-            </div>
+            <input
+                data-message={message}
+                className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
+                name={name}
+                type={type}
+                onChange={(e) => this.onChange(e.target.checked)}
+                checked={value}
+                {...rest}
+            />
         )
     }
 }

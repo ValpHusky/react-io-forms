@@ -62,3 +62,6 @@ export class InputError {
         return this._message
     }
 }
+
+
+export class EmptyValueError extends InputError {}

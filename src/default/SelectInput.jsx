@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { className } from './utils';
+import { classNameCreate } from './utils';
 
 class SelectInput extends React.PureComponent {
     static propTypes = {
@@ -35,8 +35,7 @@ class SelectInput extends React.PureComponent {
     }
 
     extractOptions() {
-        const { children, options } = this.props.innerProps
-        
+        const { children, options, setValue } = this.props
         if (!options) {
             const synOptions = []
             React.Children.forEach(children, element => {
@@ -45,8 +44,10 @@ class SelectInput extends React.PureComponent {
                 const { value, children: label } = element.props
                 value && synOptions.push({ value, label })
             })
+            synOptions[0] && setValue(synOptions[0].value)
             this.setState({ options: synOptions })
         } else {
+            options[0] && setValue(options[0].value)
             this.setState({ options })
         }
         
@@ -59,27 +60,25 @@ class SelectInput extends React.PureComponent {
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, className = '', ...rest } = this.props 
         const { options, checked } = this.state
-
         return (
-            <div data-message={message} className={className(type, valid, invalid)}>
-                <select
-                    name={name}
-                    type={type}
-                    onChange={(e) => setValue(e.target.value)}
-                    {...rest}
-                >
-                    {options && options.map(option => (
-                        <option
-                            selected={option.value === checked ? 'selected' : undefined}
-                            value={option.value}
-                        >
-                            {option.label}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <select
+                data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
+                name={name}
+                type={type}
+                onChange={(e) => setValue(e.target.value)}
+                {...rest}
+            >
+                {options && options.map(option => (
+                    <option
+                        selected={option.value === checked ? 'selected' : undefined}
+                        value={option.value}
+                    >
+                        {option.label}
+                    </option>
+                ))}
+            </select>
         )
     }
 }

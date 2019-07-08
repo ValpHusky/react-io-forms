@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types';
 export const IOInputMessageContext = React.createContext({ set: () => {}, pool: {} })
 
@@ -31,12 +31,20 @@ export class MessageContext extends React.PureComponent {
 export const IOInputMessage = (props) => (
     <IOInputMessageContext.Consumer>
         { context =>
-            <label className="IOInput-message">{context.pool[props.for] || ''}</label>
+            <Fragment>
+                {props.text ? (context.pool[props.for] || '') : <label className="iof-message">{context.pool[props.for] || ''}</label>}
+            </Fragment>
         }
     </IOInputMessageContext.Consumer>
 )
 
 IOInputMessage.propTypes = {
     /** Name of the input which this label will be linked to */
-    'for': PropTypes.string.isRequired
+    'for': PropTypes.string.isRequired,
+    /** Name of the prop that indicates to render the text as a simple text node. */
+    text: PropTypes.bool
+}
+
+IOInputMessage.defaultProps = {
+    text: false
 }
