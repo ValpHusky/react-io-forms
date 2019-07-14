@@ -18,6 +18,13 @@ class ProxyInput extends React.PureComponent  {
         standardProps: PropTypes.object
     }
 
+    static builtInValidations = {
+        letters: /^[a-zA-Z\s]+$/,
+        numbers: /^[0-9]+$/,
+        numeric: /^[0-9\.,]+$/,
+        email:   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+    }
+
     observer = new Observable()
     controllerReference = null
     Component = null
@@ -55,9 +62,8 @@ class ProxyInput extends React.PureComponent  {
         const { value } = this.state
         
         if (!this.isEqual(prevValue, curValue) && !this.isEqual(curValue, value)) {
-            this.setValue(this.filterIn(this.props.value))
+            this.setValue(this.filterIn(curValue))
         }
-        
     }
 
     componentDidMount() {
@@ -87,8 +93,13 @@ class ProxyInput extends React.PureComponent  {
 
     getInitialValue(props) {
         let value = this.filterIn(_.get(props, 'ioProps.value'))
+        const defaultValue = _.get(this.props, 'ioProps.defaultValue')
         if (value === undefined || value === null) {
-            value = this.Component.emptyValue !== undefined ? this.Component.emptyValue : ''
+            if (defaultValue) {
+                value = defaultValue
+            } else {
+                value = this.Component.emptyValue !== undefined ? this.Component.emptyValue : ''
+            }
         }
         return value
     }
@@ -135,7 +146,7 @@ class ProxyInput extends React.PureComponent  {
     collect = async (strict = false) => {
         const { value } = this.state
         const { validate, validMessage, onValid, exclude, include } = this.props.ioProps
-        const shouldNotfityValidity = !!validate
+        const shouldNotfityValidity = !!validate && !this.isEmptyValue(value)
         let val;
 
         await this.verify(value, validate)
@@ -189,18 +200,19 @@ class ProxyInput extends React.PureComponent  {
         const messageEmpty = _.get(validation, `messages.empty`, null)
         const messageDefault  = _.get(validation, `messages.default`)
         const validator = this.getValidationFunction(validate)
+        const isEmpty = this.isEmptyValue(value)
 
-        if (!required || !this.isEmptyValue(value)) {
-            if (validate) {
-                const { valid, message } = validator(value)
-                if (valid) {
-                    return value
-                }
-                throw new InputError(invalidMessage || message || messageDefault, name, { value })
+        if (required && isEmpty) {
+            throw new EmptyValueError(messageEmpty, name, { value })
+        } else if (validate && !isEmpty) {
+            const { valid, message } = validator(value)
+            if (valid) {
+                return value
             }
-            return value
+            throw new InputError(invalidMessage || message || messageDefault, name, { value })
         }
-        throw new EmptyValueError(messageEmpty, name, { value })
+        return value
+        
     }
 
     getValidationFunction(validate, proxymessage = null) {
@@ -218,9 +230,11 @@ class ProxyInput extends React.PureComponent  {
             }
         }
         else if (_.isString(validate)) {
-            const entry = _.get(validation, `validations.${validate}`)
-            if (_.isString(entry)) {
-                return (value) => ({ state: (new RegExp(entry)).test(value), message })
+            const entry = _.get(validation, `validations.${validate}`, ProxyInput.builtInValidations[validate])
+            if (!entry) {
+                return (value) => ({ valid: (new RegExp(validate)).test(value), message })
+            } else if (_.isString(entry) || entry instanceof RegExp) {
+                return (value) => ({ valid: (new RegExp(entry)).test(value), message })
             } else {
                 return this.getValidationFunction(entry, message)
             }

@@ -2,12 +2,16 @@ import React from 'react';
 
 import IOForm from '../../src';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { withKnobs, boolean, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import type from './TYPE.md'
 import required from './REQUIRED.md'
 import exclude from './EXCLUDE.md'
 import include from './INCLUDE.md'
+import defaultValue from './DEFAULTVALUE.md'
+import validate from './VALIDATE.md'
+import filterin from './FILTERIN.md'
+import filterout from './FILTEROUT.md'
  
 const stories = storiesOf('IOInput', module);
 stories.addDecorator(withKnobs) 
@@ -126,6 +130,99 @@ stories.add('Include', () => (
   readme: {
     // override docs
     content: include,
+    codeTheme: 'Xonokai'
+  }
+});
+
+
+stories.add('Default Value', () => (
+  <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
+    <div className="input-group">
+      <label for="username">Firstname</label>
+      <IOForm.Input defaultValue={text('Firstname: Default Value', 'John')} name="firstname" type="text" />
+    </div>
+    <div className="input-group">
+      <label htmlFor="password">Lastname</label>
+      <IOForm.Input defaultValue={text('Lastname: Default Value', 'McClain')} name="lastname" type="text" />
+    </div>
+    <div>
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </div>
+  </IOForm>
+), {
+  readme: {
+    // override docs
+    content: defaultValue,
+    codeTheme: 'Xonokai'
+  }
+});
+
+stories.add('Validate', () => (
+  <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
+    <div className="input-group">
+      <label for="username">Firstname</label>
+      <IOForm.Input validate={text('firstname', 'letters')} name="firstname" type="text" />
+    </div>
+    <div className="input-group">
+      <label htmlFor="lastname">Lastname</label>
+      <IOForm.Input validate={(function(c) { return v => v === c })(text('lastname<Function>', 'McClain'))} name="lastname" type="text" />
+    </div>
+    <div>
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </div>
+  </IOForm>
+), {
+  readme: {
+    // override docs
+    content: validate,
+    codeTheme: 'Xonokai'
+  }
+});
+
+stories.add('Filter In', () => (
+  <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
+    <div className="input-group">
+      <label for="username">Firstname</label>
+      <IOForm.Input filterIn={v => v ? v.toLowerCase() : v} value={text('Firstname', 'John')} name="firstname" type="text" />
+    </div>
+    <div className="input-group">
+      <label htmlFor="lastname">Lastname</label>
+      <IOForm.Input filterIn={v => v ? v.toUpperCase() : v} value={text('Lastname', 'McClain')} name="lastname" type="text" />
+    </div>
+    <div>
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </div>
+  </IOForm>
+), {
+  readme: {
+    // override docs
+    content: filterin,
+    codeTheme: 'Xonokai'
+  }
+});
+
+stories.add('Filter Out', () => (
+  <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
+    <div className="input-group">
+      <label for="username">Firstname</label>
+      <IOForm.Input filterOut={v => v ? v.toLowerCase() : v} onValue={action('Firstname')} name="firstname" type="text" />
+    </div>
+    <div className="input-group">
+      <label htmlFor="lastname">Lastname</label>
+      <IOForm.Input filterOut={v => v ? v.toUpperCase() : v} onValue={action('Lastname')} name="lastname" type="text" />
+    </div>
+    <div>
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </div>
+  </IOForm>
+), {
+  readme: {
+    // override docs
+    content: filterout,
     codeTheme: 'Xonokai'
   }
 });

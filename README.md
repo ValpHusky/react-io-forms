@@ -55,8 +55,10 @@ export default MyComponent
 The callback given at **onSubmit** will receive as props a plain object holding each of the IOInput's values in keys defined by the prop **name**. Empty values are not serialized unless **include** IOInput prop is **true**.
 
 ```js
-{ 'name': '<some value>', 'password': '<some value>' }
+{ 'name': '<some value>', 'password': '<some value>', 'mydata': '<some value>' }
 ```
+
+**Note: For full documentation checkout (IOForm's Storybook)[https://valphusky.github.io/react-io-forms]**
 
 ## IOForm
 IOForm is the core component of the library, it handles the logic of serialization of any IOInput inside its tree (no matter the depth thanks to React Context API). These are the available props.
