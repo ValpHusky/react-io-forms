@@ -12,6 +12,24 @@ import defaultValue from './DEFAULTVALUE.md'
 import validate from './VALIDATE.md'
 import filterin from './FILTERIN.md'
 import filterout from './FILTEROUT.md'
+import link from './LINK.md'
+
+const createNickname = (value) => {
+  if (value) {
+      const random = Math.round(Math.random()*100)
+      const cleaned = value.replace(/[^a-zA-Z0-9\-\._]/g, '_')
+      return `${cleaned}${random}`
+  }
+  return value
+}
+
+const createEmail = (value) => {
+  if (value) {
+      const emailify = value.replace(/[^a-zA-Z0-9\-\._]/g, '_')
+      return `${emailify.toLowerCase()}@company.com`
+  }
+  return value
+}
  
 const stories = storiesOf('IOInput', module);
 stories.addDecorator(withKnobs) 
@@ -223,6 +241,33 @@ stories.add('Filter Out', () => (
   readme: {
     // override docs
     content: filterout,
+    codeTheme: 'Xonokai'
+  }
+});
+
+stories.add('Link', () => (
+  <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
+    <div className="input-group">
+      <label for="username">Firstname</label>
+      <IOForm.Input link={["suggest_nickname", "suggest_email"]} name="name" type="text" />
+    </div>
+    <div className="input-group">
+      <label htmlFor="suggest_nickname">Suggested Nickname</label>
+      <IOForm.Input filterIn={createNickname} name="suggest_nickname" type="text" />
+    </div>
+    <div className="input-group">
+      <label htmlFor="suggest_email">Suggested Email</label>
+      <IOForm.Input filterIn={createEmail} name="suggest_email" type="text" />
+    </div>
+    <div>
+      <button type="reset">Reset</button>
+      <button type="submit">Submit</button>
+    </div>
+  </IOForm>
+), {
+  readme: {
+    // override docs
+    content: link,
     codeTheme: 'Xonokai'
   }
 });

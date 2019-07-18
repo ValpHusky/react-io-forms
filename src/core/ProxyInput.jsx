@@ -151,6 +151,7 @@ class ProxyInput extends React.PureComponent  {
 
         await this.verify(value, validate)
         this.setState({ invalid: false, valid: shouldNotfityValidity })
+        this.sendMessage('')
 
         _.defer(() => {
             shouldNotfityValidity && validMessage && this.info(validMessage)
@@ -166,7 +167,6 @@ class ProxyInput extends React.PureComponent  {
     notify = async (message) => {
         const { onInvalid, name } = this.props.ioProps
         if (message) {
-            console.log(message);
             if (message instanceof InputError) {
                 if (!message.names() || message.includes(name)) {
                     this.setState({ invalid: true, valid: false })

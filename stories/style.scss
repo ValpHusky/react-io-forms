@@ -33,5 +33,11 @@
         color: #4a4a4a;
         font-size: 90%;
         margin-bottom: 0.3rem;
+
+        &.iof-message {
+            font-size: 100%;
+            margin: 0;
+            color: #a9a9a9;
+        }
     }
 }
