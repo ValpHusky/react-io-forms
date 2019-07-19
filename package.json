@@ -1,8 +1,9 @@
 {
   "name": "react-io-forms",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "Simple, functional, scalable input & forms for React.js",
   "main": "build/index.cjs.js",
+  "types": "build/index.d.ts",
   "module": "build/index.esm.js",
   "browser": "build/index.js",
   "scripts": {
@@ -72,8 +73,5 @@
     "prop-types": ">=15.7.x",
     "react": ">=16.8.x",
     "react-dom": ">=16.8.x"
-  },
-  "dependencies": {
-    "@babel/plugin-external-helpers": "^7.2.0"
   }
 }

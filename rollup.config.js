@@ -11,29 +11,40 @@ import localResolve from 'rollup-plugin-local-resolve';
 import pkg from './package.json';
 
 const config = {
+  
   input: 'src/index.jsx',
   output: [
     {
       file: pkg.browser,
       format: 'umd',
       name: 'IOForm',
+      globals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+      }
     },
     {
       file: pkg.main,
       format: 'cjs',
       name: 'IOForm',
+      globals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+      }
     },
     {
       file: pkg.module,
       format: 'es',
+      globals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+      },
     },
   ],
-  external: [
-    'react',
-    'react-dom',
-  ],
   plugins: [
-    peerDepsExternal(),
+    peerDepsExternal({
+      includeDependencies: true,
+    }),
     postcss({ extract: true, plugins: [autoprefixer] }),
     babel({ exclude: 'node_modules/**' }),
     localResolve(),
