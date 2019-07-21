@@ -35,7 +35,8 @@ class RadioInput extends React.PureComponent {
     }
 
     extractOptions() {
-        const { children, options } = this.props
+        const { children } = this.props
+        const { options } = this.props.ioProps
         
         if (!options) {
             const synOptions = []

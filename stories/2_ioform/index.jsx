@@ -17,11 +17,11 @@ stories.add('onSubmit', () => (
   <div>
     <IOForm reset onSubmit={(values) => { action('Submit')(values) }}>
       <h4>With a simple callback function</h4>
-      <div className="input-group">
+      <div className="iof-group">
         <label for="username">Username</label>
         <IOForm.Input id="username" name="username" />
       </div>
-      <div className="input-group">
+      <div className="iof-group">
         <label for="password">Password</label>
         <IOForm.Input  name="password" type="password" />
       </div>
@@ -65,11 +65,11 @@ stories.add('onSubmit', () => (
 // Knobs for React props
 stories.add('Reset', () => (
   <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
-    <div className="input-group">
+    <div className="iof-group">
       <label for="username">Username</label>
       <IOForm.Input id="username" name="username" />
     </div>
-    <div className="input-group">
+    <div className="iof-group">
       <label for="password">Password</label>
       <IOForm.Input  name="password" type="password" />
     </div>
@@ -98,11 +98,11 @@ stories.add('Lock', () => (
     action('Submit')(values)
     return
   }}>
-    <div className="input-group">
+    <div className="iof-group">
       <label for="username">Username</label>
       <IOForm.Input id="username" name="username" />
     </div>
-    <div className="input-group">
+    <div className="iof-group">
       <label for="password">Password</label>
       <IOForm.Input  name="password" type="password" />
     </div>
@@ -123,11 +123,11 @@ stories.add('Lock', () => (
 // Knobs for React props
 stories.add('FormData', () => (
   <IOForm formdata={boolean('FormData', true)} reset={boolean('Reset', false)} onSubmit={action('Submit')}>
-    <div className="input-group">
+    <div className="iof-group">
       <label for="username">Username</label>
       <IOForm.Input id="username" name="username" />
     </div>
-    <div className="input-group">
+    <div className="iof-group">
       <label for="password">Password</label>
       <IOForm.Input  name="password" type="password" />
     </div>

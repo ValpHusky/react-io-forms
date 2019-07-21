@@ -73,6 +73,7 @@ export default class IOForm extends React.PureComponent {
     async collect() {
         const { formdata } = this.props
         const values = formdata ? new FormData() : {}
+        let fail = false
         
         for(const i in this.fields) {
             try {
@@ -80,12 +81,13 @@ export default class IOForm extends React.PureComponent {
                 this.serializeInto(values, i, await field.collect(true))
             } catch(e) {
                 if (e instanceof InputError) {
+                    fail = true;
                     console.log('IOForm::Serialization ended in error:', e)
-                    return null
+                    this.notify(e)
                 }
             }
         }
-        return values
+        return fail ? null : values
     }
 
     async notify(e) {

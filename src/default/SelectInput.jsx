@@ -35,7 +35,9 @@ class SelectInput extends React.PureComponent {
     }
 
     extractOptions() {
-        const { children, options, setValue } = this.props
+        const { children, setValue } = this.props
+        const { options } = this.props.ioProps
+        
         if (!options) {
             const synOptions = []
             React.Children.forEach(children, element => {

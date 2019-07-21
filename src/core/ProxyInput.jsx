@@ -196,20 +196,20 @@ class ProxyInput extends React.PureComponent  {
     async verify(value, validate) {
         const { validation } = this.props.contextProps
         const { required, name, invalidMessage } = this.props.ioProps
+        const defaultMessage = _.get(validation, 'defaultMessage')
+        const requiredMessage = _.get(validation, 'requiredMessage')
         
-        const messageEmpty = _.get(validation, `messages.empty`, null)
-        const messageDefault  = _.get(validation, `messages.default`)
         const validator = this.getValidationFunction(validate)
         const isEmpty = this.isEmptyValue(value)
 
         if (required && isEmpty) {
-            throw new EmptyValueError(messageEmpty, name, { value })
+            throw new EmptyValueError(invalidMessage || requiredMessage, name, { value })
         } else if (validate && !isEmpty) {
             const { valid, message } = validator(value)
             if (valid) {
                 return value
             }
-            throw new InputError(invalidMessage || message || messageDefault, name, { value })
+            throw new InputError(invalidMessage || message || defaultMessage , name, { value })
         }
         return value
         
@@ -234,6 +234,7 @@ class ProxyInput extends React.PureComponent  {
             if (!entry) {
                 return (value) => ({ valid: (new RegExp(validate)).test(value), message })
             } else if (_.isString(entry) || entry instanceof RegExp) {
+                console.log(validate, entry)
                 return (value) => ({ valid: (new RegExp(entry)).test(value), message })
             } else {
                 return this.getValidationFunction(entry, message)
@@ -256,7 +257,6 @@ class ProxyInput extends React.PureComponent  {
 
     setValue = (value) => {
         const { onChange } = this.props.ioProps
-
         _.defer(() => {
             onChange && onChange(value)
         })
@@ -312,18 +312,16 @@ class ProxyInput extends React.PureComponent  {
     }
 
     render() {
-        const { standardProps, ioProps } = this.props
+        const { standardProps, ioProps, contextProps: { layouter } } = this.props
         const { valid, invalid, value, message } = this.state
         const Component = this.Component
 
-        return (
-            <Component 
-                {...standardProps}
-                ioProps={{ ...ioProps, valid, invalid, message }}
-                setValue={this.setValue}
-                value={value}
-            />
-        )
+        return layouter(Component, { 
+            ...standardProps,
+            ioProps: { ...ioProps, valid, invalid, message },
+            setValue: this.setValue,
+            value
+        })
     }
 }
 

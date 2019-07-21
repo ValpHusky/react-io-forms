@@ -15,10 +15,12 @@ export class ValidatorContext extends React.PureComponent {
 }
 
 ValidatorContext.propTypes = {
-    /** Triggered when a IOInput in the node tree changes */
+    /** Object that contains as key:string-value:(RegExp|Function) pair the set of messages for each validation */
     validations: PropTypes.object.isRequired,
-    /** Triggered when a IOInput type submit is clicked within the tree */
+    /** Default message to show in case a message is not defined. */
     defaultMessage: PropTypes.string,
-    /** Triggered when a IOInput in the node tree blurs out */
+    /** Default message to show in case an Input fails the required validation */
+    requiredMessage: PropTypes.string,
+    /** Object that contains as key:string-value:string pair the set of messages for each validation */
     messages: PropTypes.object
 }

@@ -8,6 +8,7 @@ import { IOInputValidatorContext } from './ContextValidator'
 import { IOInputMessageContext } from './ContextMessage'
 import { IOInputRegistryContext } from './ContextRegistry'
 import { IOInputLinkageContext } from './ContextLinkage'
+import { IOInputLayoutContext } from './ContextLayout'
 import { include, exclude } from './utils'
 
 import ProxyInput from './core/ProxyInput'
@@ -18,6 +19,7 @@ import defaultRegistry from './default'
 export * from './ContextValidator'
 export * from './ContextMessage'
 export * from './ContextRegistry'
+export * from './ContextLayout'
 export * from './core/InputError'
 export * from './utils'
 
@@ -34,11 +36,15 @@ export const IOInput = ({...props}) => (
                             { registry =>
                                 <IOInputLinkageContext.Consumer>
                                 {linkage =>
-                                    <ProxyInput 
-                                        contextProps={{ form, validation, messages, registry, linkage}}
-                                        ioProps={include(props, IOInput.propTypes)}
-                                        standardProps={exclude(props, IOInput.propTypes)}
-                                    />
+                                    <IOInputLayoutContext.Consumer>
+                                        {layouter =>
+                                            <ProxyInput 
+                                                contextProps={{ form, validation, messages, registry, linkage, layouter}}
+                                                ioProps={include(props, IOInput.propTypes)}
+                                                standardProps={exclude(props, IOInput.propTypes)}
+                                            />
+                                        }
+                                    </IOInputLayoutContext.Consumer>
                                 }
                                 </IOInputLinkageContext.Consumer>
                             }
@@ -103,7 +109,9 @@ IOInput.propTypes = {
     /** Function to use as filter for any outgoing value from the I/O flow to be serialized */
     filterOut: PropTypes.func,
     /** Fields to link. Any value change will be propagated to the fields within the same IOForm that match the link name and the field name */
-    link: PropTypes.oneOfType([ PropTypes.array, PropTypes.string ])
+    link: PropTypes.oneOfType([ PropTypes.array, PropTypes.string ]),
+    /** Options available by option selectable intpu fields. For example: Radio and Select */
+    options: PropTypes.object
 }
 
 IOInput.defaultProps = {

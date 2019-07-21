@@ -36,7 +36,7 @@ stories.addDecorator(withKnobs)
 
 stories.add('IOInputMessage', () => (
     <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
-      <div className="input-group">
+      <div className="iof-group">
         <label for="username">My Email</label>
         <IOForm.Input
             validate="email" onMessage={action('Message')}
@@ -62,7 +62,7 @@ stories.add('IOInputMessage', () => (
 stories.add('InputError', () => (
     <Fragment>
         <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
-            <div className="input-group">
+            <div className="iof-group">
                 <label for="username">A name that cannot start with:</label>
                 <IOForm.Input
                     validate={cannotStartWith(text('Cannot start with', 'A'))}
@@ -76,12 +76,12 @@ stories.add('InputError', () => (
             </div>
         </IOForm>
         <IOForm reset={boolean('Reset', false)} onSubmit={validateCredentials(text('Required Username', 'admin'),text('Required Password', '1234'))}>
-            <div className="input-group">
+            <div className="iof-group">
                 <label for="username">Username</label>
                 <IOForm.Input type="text" name="username" />
                 <label className="messages">Message: <IOInputMessage for="username" /></label>
             </div>
-            <div className="input-group">
+            <div className="iof-group">
                 <label for="password">Password</label>
                 <IOForm.Input type="password" name="password" />
                 <label className="messages">Message: <IOInputMessage for="password" /></label>
