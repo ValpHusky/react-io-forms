@@ -13,7 +13,7 @@ export class MessageContext extends React.PureComponent {
 
     setPool = (message = '', field) => {
         const { pool } = this.state
-        if (field) {
+        if (field && pool[field] !== message) {
             this.setState({ pool: { ...pool, [field]: message } })
         }
     }

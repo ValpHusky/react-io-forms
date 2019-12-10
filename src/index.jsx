@@ -39,9 +39,10 @@ export const IOInput = ({...props}) => (
                                     <IOInputLayoutContext.Consumer>
                                         {layouter =>
                                             <ProxyInput 
-                                                contextProps={{ form, validation, messages, registry, linkage, layouter}}
+                                                contextProps={{ form, validation, messages, registry, linkage, layouter }}
                                                 ioProps={include(props, IOInput.propTypes)}
                                                 standardProps={exclude(props, IOInput.propTypes)}
+                                                ignoreMessagePool={props.ignoreMessagePool} // Ignore message pool state, so collect method perfomance can increase drastically
                                             />
                                         }
                                     </IOInputLayoutContext.Consumer>
@@ -117,7 +118,8 @@ IOInput.propTypes = {
 IOInput.defaultProps = {
     type: 'text',
     required: false,
-    exclude: false
+    exclude: false,
+    ignoreMessagePool: false,
 }
 
 /**

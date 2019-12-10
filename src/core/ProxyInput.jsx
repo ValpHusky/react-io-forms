@@ -15,7 +15,8 @@ class ProxyInput extends React.PureComponent  {
         /** IO Unique props for the Proxy Input to consume */
         ioProps: PropTypes.object,
         /** Standard input props delivered by the implementor all the way to the core component */
-        standardProps: PropTypes.object
+        standardProps: PropTypes.object,
+        ignoreMessagePool: PropTypes.bool,
     }
 
     static builtInValidations = {
@@ -68,6 +69,7 @@ class ProxyInput extends React.PureComponent  {
 
     componentDidMount() {
         const { contextProps } = this.props
+        const { messages } = contextProps;
         const { name } = this.props.ioProps
 
         if(this.validProps(this.props)) {
@@ -147,7 +149,7 @@ class ProxyInput extends React.PureComponent  {
         const { value } = this.state
         const { validate, validMessage, onValid, exclude, include } = this.props.ioProps
         const shouldNotfityValidity = !!validate && !this.isEmptyValue(value)
-        let val;
+        let val
 
         await this.verify(value, validate)
         this.setState({ invalid: false, valid: shouldNotfityValidity })
@@ -234,7 +236,6 @@ class ProxyInput extends React.PureComponent  {
             if (!entry) {
                 return (value) => ({ valid: (new RegExp(validate)).test(value), message })
             } else if (_.isString(entry) || entry instanceof RegExp) {
-                console.log(validate, entry)
                 return (value) => ({ valid: (new RegExp(entry)).test(value), message })
             } else {
                 return this.getValidationFunction(entry, message)
@@ -289,7 +290,9 @@ class ProxyInput extends React.PureComponent  {
     sendMessage(message, value, inputError = null) {
         const { messages } = this.props.contextProps
         const { onMessage, name } = this.props.ioProps
-        messages.set && messages.set(message, name)
+        if (!this.props.ignoreMessagePool) {
+          messages.set && messages.set(message, name)
+        }
         this.setState({ message })
 
         _.defer(() => {
@@ -312,12 +315,12 @@ class ProxyInput extends React.PureComponent  {
     }
 
     render() {
-        const { standardProps, ioProps, contextProps: { layouter } } = this.props
+        const { standardProps: { ignoreMessagePool, ...rest }, ioProps, contextProps: { layouter } } = this.props
         const { valid, invalid, value, message } = this.state
         const Component = this.Component
 
         return layouter(Component, { 
-            ...standardProps,
+            ...rest,
             ioProps: { ...ioProps, valid, invalid, message },
             setValue: this.setValue,
             value
