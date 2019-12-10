@@ -186,8 +186,8 @@
     export declare class IOInput<P={}> extends React.Component<IOInputProps & P, any> {}
     export declare class LayoutContext extends React.Component<LayouterContextProps, any> {}
 
-    export type IOInputReactHoc<P, V> = (component: React.JSXElementConstructor<P>) => (props: P & IOInputProps) => React.JSXElementConstructor<P & WithIOInjectedProps<V>>
-    export declare function withIO<P=any, V=any>(type: string): IOInputReactHoc<P, V>
+    export type IOInputReactHoc<P> = (component: React.JSXElementConstructor<P>) => <V>(props: P & IOInputProps) => React.JSXElementConstructor<P & WithIOInjectedProps<V>>
+    export declare function withIO<P=any>(type: string): IOInputReactHoc<P>
     // export declare const withIO = <P={}>(type: string) => (component: React.ReactComponentElement) => <V>(props: P & IOInputProps):React.ReactComponentElement<P & WithIOInjectedProps<V>> => {}
 
     declare class IOForm<T=any> extends React.Component<IOFormProps<T>> {
