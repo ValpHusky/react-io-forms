@@ -39,7 +39,7 @@ class InputFactory {
             if (_.isString(type)) {
                 const current = InputFactory.registry[registry][type]
                 if(current) {
-                    console.log(`[IOInput]InputFactory::add Given type "${type}" was already registry for ${current}. Overriding for ${Component}`)
+                    console.warn(`[IOInput]InputFactory::add Given type "${type}" was already in registry for ${current}. Overriding for ${Component}`)
                 }
                 InputFactory.registry[registry][type] = Component
             } else if(_.isArray(type)) {

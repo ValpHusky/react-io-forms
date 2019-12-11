@@ -69,7 +69,6 @@ class ProxyInput extends React.PureComponent  {
 
     componentDidMount() {
         const { contextProps } = this.props
-        const { messages } = contextProps;
         const { name } = this.props.ioProps
 
         if(this.validProps(this.props)) {
@@ -152,10 +151,11 @@ class ProxyInput extends React.PureComponent  {
         let val
 
         await this.verify(value, validate)
-        this.setState({ invalid: false, valid: shouldNotfityValidity })
         this.sendMessage('')
-
+        
+        
         _.defer(() => {
+            this.setState({ message: '', invalid: false, valid: shouldNotfityValidity })
             shouldNotfityValidity && validMessage && this.info(validMessage)
             shouldNotfityValidity && onValid && onValid(val)
         })
@@ -171,8 +171,10 @@ class ProxyInput extends React.PureComponent  {
         if (message) {
             if (message instanceof InputError) {
                 if (!message.names() || message.includes(name)) {
-                    this.setState({ invalid: true, valid: false })
-                    onInvalid && onInvalid(message, name)
+                    _.defer(() => {
+                        this.setState({ message: message.toString(), invalid: true, valid: false })
+                        onInvalid && onInvalid(message, name)
+                    })
                     return this.error(message.toString(), message)
                 }
 
@@ -290,12 +292,11 @@ class ProxyInput extends React.PureComponent  {
     sendMessage(message, value, inputError = null) {
         const { messages } = this.props.contextProps
         const { onMessage, name } = this.props.ioProps
-        if (!this.props.ignoreMessagePool) {
-          messages.set && messages.set(message, name)
-        }
-        this.setState({ message })
-
+        
         _.defer(() => {
+            if (!this.props.ignoreMessagePool) {
+                messages.dispatch && messages.dispatch(message, name)
+            }
             onMessage && onMessage(message, { value, name, error: inputError })
         })
     }

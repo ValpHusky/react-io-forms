@@ -56,6 +56,7 @@ export default class IOForm extends React.PureComponent {
                     const submitResult = onSubmit(values)
                     if (submitResult instanceof Promise) {
                         await submitResult
+                       
                     }
                     reset && this.reset()
                 } catch(e) {
@@ -68,6 +69,7 @@ export default class IOForm extends React.PureComponent {
             }
             this.lock = false
         }
+        
     }
 
     async collect() {
@@ -82,7 +84,6 @@ export default class IOForm extends React.PureComponent {
             } catch(e) {
                 if (e instanceof InputError) {
                     fail = true;
-                    console.log('IOForm::Serialization ended in error:', e)
                     this.notify(e)
                 }
             }
