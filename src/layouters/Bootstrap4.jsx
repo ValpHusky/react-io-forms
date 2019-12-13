@@ -1,15 +1,9 @@
 import React, { Fragment } from 'react'
 
 const singlePend = (pend) => (
-    <Fragment>
-        {_.isString(pend) ?
-            <div className="input-group-text">
-                {pend}
-            </div>
-            :
-            pend
-        }
-    </Fragment>
+    <div className="input-group-text">
+        {pend}
+    </div>
 )
 
 const pendRender = (pend) => {

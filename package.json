@@ -10,7 +10,8 @@
     "test": "exit 0",
     "build": "./node_modules/rollup/bin/rollup -c",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o ./docs"
+    "build-storybook": "build-storybook -o ./docs",
+    "prerelease": "npm run build && npm version prerelease --preid=next"
   },
   "repository": {
     "type": "git",
