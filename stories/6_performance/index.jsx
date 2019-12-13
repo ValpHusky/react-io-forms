@@ -15,7 +15,7 @@ stories.add('200 inputs with submit failure', () => (
             ac(value)
             throw new InputError('Failure', ['field_0'])
         })(action('Submit'))}>
-            {(new Array(200)).fill('a').map((e, i) => (
+            {(new Array(1000)).fill('a').map((e, i) => (
                 <div key={i}>
                     <IOInput value={text('Default Value', 'Hello')} validate={v => v.length > 3} invalidMessage="mal" label={`Field ${i}`} name={`field_${i}`} />
                 </div>
