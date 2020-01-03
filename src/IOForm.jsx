@@ -18,7 +18,9 @@ export default class IOForm extends React.PureComponent {
         /** Indicates that the form should reset after a successfull submit */
         reset: PropTypes.bool,
         /** Indicates that the data should be serialized as a FormData object */
-        formdata: PropTypes.bool
+        formdata: PropTypes.bool,
+        /** Triggered when validity changes; all the fields have achieved validity (true) or one them of them hasn't (false) */
+        onValidity: PropTypes.func
     }
     static defaultProps = {
         lock: false,
@@ -27,7 +29,9 @@ export default class IOForm extends React.PureComponent {
     }
 
     fields = {}
+    validitymap = {}
     lock = false
+    validity = false
 
     constructor(props) {
         super(props)
@@ -111,6 +115,22 @@ export default class IOForm extends React.PureComponent {
         }
     }
 
+    setValidity = (name, state) => {
+        this.validitymap[name] = state
+        this.checkValidities()
+    }
+
+    checkValidities = () => {
+        const { onValidity } = this.props
+        if (onValidity) {
+            const validity = Object.keys(this.fields).every(k => !!this.validitymap[k])
+            if (this.validity !== validity) {
+                this.validity = validity
+                onValidity(validity)
+            }
+        }
+    }
+
     onReset = (e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -122,7 +142,7 @@ export default class IOForm extends React.PureComponent {
         return (
             <MessageContext>
                 <LinkageContext>
-                    <IOInputCollectorContext.Provider value={{ register: this.register, unregister: this.unregister }}>
+                    <IOInputCollectorContext.Provider value={{ register: this.register, unregister: this.unregister, setValidity: this.setValidity }}>
                         <form className="iof-main" onReset={this.onReset} id={this.props.id || undefined} onSubmit={this.onSubmit}>
                             <button style={{ display: 'none' }} />
                             {this.props.children}

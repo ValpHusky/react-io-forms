@@ -69,7 +69,7 @@ class ProxyInput extends React.PureComponent  {
 
     componentDidMount() {
         const { contextProps } = this.props
-        const { name } = this.props.ioProps
+        const { name, required } = this.props.ioProps
 
         if(this.validProps(this.props)) {
             
@@ -78,6 +78,9 @@ class ProxyInput extends React.PureComponent  {
 
             form && form(name, this.controllerReference) 
             linkage && linkage(name, this.controllerReference)
+        }
+        if (!required) {
+            this.setValidity(true)
         }
     }
 
@@ -91,6 +94,8 @@ class ProxyInput extends React.PureComponent  {
 
         this.observer = new Observable()
     }
+
+    
 
     getInitialValue(props) {
         let value = this.filterIn(_.get(props, 'ioProps.value'))
@@ -123,11 +128,26 @@ class ProxyInput extends React.PureComponent  {
         return (value === null || value === undefined || this.isEqual(value, emptyValue))
     }
 
+    setValidity = (state) => {
+        const { contextProps } = this.props
+        const { name } = this.props.ioProps
+        _.defer(() => {
+            const setValidity = _.get(contextProps, 'form.setValidity')
+            setValidity(name, state)
+        })
+    }
+
     runcycle = async () => {
         const { onValue, name } = this.props.ioProps
         const { value } = this.state
-        const val = await this.collect()
-        onValue && onValue(val, name, { originalValue: value })
+        try {
+            const val = await this.collect()
+            onValue && onValue(val, name, { originalValue: value })
+            this.setValidity(true)
+        } catch (e) {
+            this.setValidity(false)
+            throw e
+        }
     }
 
     inject = (value, origin) => {

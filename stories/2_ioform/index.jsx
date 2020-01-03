@@ -2,12 +2,13 @@ import React from 'react';
 
 import IOForm from '../../src/';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { withKnobs, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import reset from './RESET.md';
 import onsubmit from './ONSUBMIT.md';
 import lock from './LOCK.md';
 import formdata from './FORMDATA.md';
+import onvalidity from './ONVALIDITY.md';
 import { sleep } from '../../src/default/utils';
  
 const stories = storiesOf('IOForm', module);
@@ -139,6 +140,31 @@ stories.add('FormData', () => (
   readme: {
     // override docs
     content: formdata,
+    codeTheme: 'Xonokai'
+  }
+});
+
+// Knobs for React props
+stories.add('onValidity', () => {
+  return (
+    <IOForm onValidity={action('Validity')} reset={boolean('Reset', false)} onSubmit={action('Submit')}>
+      <div className="iof-group">
+        <label for="username">Username</label>
+        <IOForm.Input required validate={(l => v => v.length > l)(number('Username minimum Length', 8))} id="username" name="username" />
+      </div>
+      <div className="iof-group">
+        <label for="password">Password</label>
+        <IOForm.Input required validate={(l => v => v.length > l)(number('Password Minimum Length', 8))} name="password" type="password" />
+      </div>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </IOForm>
+  )
+}, {
+  readme: {
+    // override docs
+    content: onvalidity,
     codeTheme: 'Xonokai'
   }
 });
