@@ -69,8 +69,8 @@ class ProxyInput extends React.PureComponent  {
 
     componentDidMount() {
         const { contextProps } = this.props
-        const { name, required } = this.props.ioProps
-
+        const { name } = this.props.ioProps
+ 
         if(this.validProps(this.props)) {
             
             const form = _.get(contextProps, 'form.register')
@@ -79,9 +79,7 @@ class ProxyInput extends React.PureComponent  {
             form && form(name, this.controllerReference) 
             linkage && linkage(name, this.controllerReference)
         }
-        if (!required) {
-            this.setValidity(true)
-        }
+        this.runInitialValue()
     }
 
     componentWillUnmount() {
@@ -93,6 +91,20 @@ class ProxyInput extends React.PureComponent  {
         linkage && linkage(name, this.controllerReference)
 
         this.observer = new Observable()
+    }
+
+    async runInitialValue() {
+        const { required, validate } = this.props.ioProps
+        const { value } = this.state
+
+        if (!required && this.isEmptyValue(value)) {
+            this.setValidity(true)
+        } else if (!this.isEmptyValue(value)) {
+            try {
+                await this.verify(value, validate)
+                this.setValidity(true)
+            } catch(e) {}
+        }
     }
 
     

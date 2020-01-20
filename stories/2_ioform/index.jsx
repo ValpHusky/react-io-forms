@@ -2,7 +2,7 @@ import React from 'react';
 
 import IOForm from '../../src/';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, boolean, number } from '@storybook/addon-knobs';
+import { withKnobs, boolean, number, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import reset from './RESET.md';
 import onsubmit from './ONSUBMIT.md';
@@ -155,6 +155,10 @@ stories.add('onValidity', () => {
       <div className="iof-group">
         <label for="password">Password</label>
         <IOForm.Input required validate={(l => v => v.length > l)(number('Password Minimum Length', 8))} name="password" type="password" />
+      </div>
+      <div className="iof-group">
+        <label for="displayname">Display Name</label>
+        <IOForm.Input defaultValue={text('Display Name','John')} validate={(l => v => v.length > l)(number('Display Name minimum length', 3))} name="displayname" type="text" />
       </div>
       <div>
         <button type="submit">Submit</button>
