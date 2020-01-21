@@ -1,6 +1,10 @@
 {
   "name": "react-io-forms",
+<<<<<<< HEAD
   "version": "1.4.2-next.0",
+=======
+  "version": "1.4.3",
+>>>>>>> bebdc0aa91669266b79f9b07602700fb8002d1b3
   "description": "Simple, functional, scalable input & forms for React.js",
   "main": "build/index.cjs.js",
   "types": "index.d.ts",
