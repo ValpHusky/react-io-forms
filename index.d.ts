@@ -48,6 +48,8 @@
         value: any
     }
 
+    export type Validators = string | RegExp | ((value:any) => boolean) | ((value: any) => { valid: boolean, message: string }) | boolean 
+
     export interface IOInputProps {
         /** Name of the input. This information is required and it is used as a reference for all the async processes like message propagation and data collection through IOInputForm */
         name: string;
@@ -74,7 +76,7 @@
         * If a function is give, the validation will consist on running the value agains the function. The given function must return either true or false to indicate the validation passed
         * If a boolean is given, the validation will automatically resolve on the boolean's value. This is useful if you want to have full control over the invalid/valid state
         */
-        validate?: string | RegExp | ((value:any) => boolean) | ((value: any) => { valid: boolean, message: string }) | boolean 
+        validate?: Validators | Validators[]
         /** A flag that indicates the value must not be null or empty to be a valid input */
         required?: boolean
         /** This flag forces the state/className for a valid input (Normally this happens internally when the value meets the validation criteria) */
