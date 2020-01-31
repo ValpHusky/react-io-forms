@@ -106,10 +106,12 @@ class ProxyInput extends React.PureComponent  {
 
         if (!required && this.isEmptyValue(value)) {
             this.setValidity(true)
+            this.clearMessage()
         } else if (!this.isEmptyValue(value)) {
             try {
                 await this.verify(value, validate)
                 this.setValidity(true)
+                this.clearMessage()
             } catch(e) {}
         }
     }
