@@ -67,7 +67,7 @@ class ProxyInput extends React.PureComponent  {
             await this.setValue(this.filterIn(curValue))
             shouldrun = true
         }
-        if (prevProps.ioProps.required !== this.props.required) {
+        if (prevProps.ioProps.required !== this.props.ioProps.required) {
             shouldrun = true
         }
 
