@@ -57,14 +57,21 @@ class ProxyInput extends React.PureComponent  {
 
     }
 
-    componentDidUpdate(prevProps) {
+    async componentDidUpdate(prevProps) {
         const prevValue = _.get(prevProps, 'ioProps.value')
         const curValue = _.get(this.props, 'ioProps.value')
         const { value } = this.state
+        let shouldrun = false
         
         if (!this.isEqual(prevValue, curValue) && !this.isEqual(curValue, value)) {
-            this.setValue(this.filterIn(curValue))
+            await this.setValue(this.filterIn(curValue))
+            shouldrun = true
         }
+        if (prevProps.ioProps.required !== this.props.required) {
+            shouldrun = true
+        }
+
+        if (shouldrun) { this.runInitialValue() }
     }
 
     componentDidMount() {
