@@ -91,6 +91,8 @@ class ProxyInput extends React.PureComponent  {
 
     componentWillUnmount() {
         const { contextProps } = this.props
+        const { name } = this.props.ioProps
+
         const form = _.get(contextProps, 'form.unregister')
         const linkage = _.get(contextProps, `linkage.unregister`)
 
