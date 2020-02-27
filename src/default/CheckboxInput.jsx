@@ -19,9 +19,10 @@ class CheckboxInput extends React.PureComponent {
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', innerRef, ...rest } = this.props 
         return (
             <input
+                ref={innerRef}
                 data-message={message}
                 className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
                 name={name}

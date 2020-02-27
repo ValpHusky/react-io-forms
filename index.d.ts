@@ -103,6 +103,8 @@
         link?: string | Array<string>;
         /** Options available by option selectable intpu fields. For example: Radio and Select */
         options?: Array<IOInputOptions>;
+        /** Gets the reference of the inner input */
+        innerRef?: (el: HTMLElement) => void | React.MutableRefObject;
         
         [key:string]: any;
     }

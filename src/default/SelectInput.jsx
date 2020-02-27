@@ -62,7 +62,7 @@ class SelectInput extends React.PureComponent {
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, className = '', ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, className = '', innerRef, ...rest } = this.props 
         const { options, checked } = this.state
         return (
             <select
@@ -70,6 +70,7 @@ class SelectInput extends React.PureComponent {
                 name={name}
                 type={type}
                 onChange={(e) => setValue(e.target.value)}
+                ref={innerRef}
                 {...rest}
             >
                 {options && options.map(option => (

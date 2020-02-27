@@ -60,7 +60,7 @@ class RadioInput extends React.PureComponent {
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, className = '', ...rest } = this.props
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, className = '',innerRef, ...rest } = this.props
         const { options, checked } = this.state
         
         return (
@@ -68,6 +68,7 @@ class RadioInput extends React.PureComponent {
                 {options && options.map(option => (
                     <div data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}>
                         <input
+                            ref={innerRef}
                             id={`radio_${name}_${option.value.toString()}`}
                             type="radio"
                             value={option.value}

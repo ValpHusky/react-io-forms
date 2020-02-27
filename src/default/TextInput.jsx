@@ -15,7 +15,7 @@ class TextInput extends React.PureComponent {
     static emptyValue = ''
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', ...rest } = this.props
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', innerRef, ...rest } = this.props
         return (
             <input
                 data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
@@ -23,6 +23,7 @@ class TextInput extends React.PureComponent {
                 onChange={(e) => setValue(e.target.value)}
                 value={value}
                 name={name}
+                ref={innerRef}
                 {...rest}
             />
         )

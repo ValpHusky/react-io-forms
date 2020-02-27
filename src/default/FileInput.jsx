@@ -32,7 +32,7 @@ class FileInput extends React.PureComponent {
     }
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '',innerRef, ...rest } = this.props 
         return (
             <input
                 data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
@@ -40,6 +40,7 @@ class FileInput extends React.PureComponent {
                 type={type}
                 innerRef={(e) => { this.fileinput = e }}
                 onChange={this.onChange}
+                ref={innerRef}
                 {...rest}
             />
         )

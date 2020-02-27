@@ -15,13 +15,14 @@ class TextAreaInput extends React.PureComponent {
     static emptyValue = ''
 
     render() {
-        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', ...rest } = this.props 
+        const { ioProps: { type, valid, invalid, message, name }, setValue, value, className = '', innerRef, ...rest } = this.props 
         return (
             <textarea
                 data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
                 name={name}
                 onChange={(e) => setValue(e.target.value)}
                 value={value}
+                ref={innerRef}
                 {...rest}
             />
         )
