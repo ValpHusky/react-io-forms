@@ -75,6 +75,7 @@ class SelectInput extends React.PureComponent {
             >
                 {options && options.map(option => (
                     <option
+                        key={option.value}
                         selected={option.value === checked ? 'selected' : undefined}
                         value={option.value}
                     >
