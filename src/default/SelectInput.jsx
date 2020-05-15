@@ -64,6 +64,7 @@ class SelectInput extends React.PureComponent {
     render() {
         const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, className = '', innerRef, ...rest } = this.props 
         const { options, checked } = this.state
+      console.log('testing github link on npm');
         return (
             <select
                 data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
