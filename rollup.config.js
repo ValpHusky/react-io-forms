@@ -15,29 +15,38 @@ const config = {
   input: 'src/index.jsx',
   output: [
     {
+      exports: 'named',
       file: pkg.browser,
       format: 'umd',
       name: 'IOForm',
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
+        'prop-types': 'PropTypes',
+        lodash: '_'
       }
     },
     {
+      exports: 'named',
       file: pkg.main,
       format: 'cjs',
       name: 'IOForm',
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
+        'prop-types': 'PropTypes',
+        lodash: '_'
       }
     },
     {
+      exports: 'named',
       file: pkg.module,
       format: 'es',
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
+        'prop-types': 'PropTypes',
+        lodash: '_'
       },
     },
   ],
@@ -46,7 +55,7 @@ const config = {
       includeDependencies: true,
     }),
     postcss({ extract: true, plugins: [autoprefixer] }),
-    babel({ exclude: 'node_modules/**' }),
+    babel({ exclude: 'node_modules/**', runtimeHelpers: true }),
     localResolve(),
     resolve({
         extensions: [ '.mjs', '.js', '.jsx', '.json' ]

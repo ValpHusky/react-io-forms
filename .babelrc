@@ -8,8 +8,8 @@
       ],
       "@babel/preset-react"
     ],
-    "plugins": ["@babel/proposal-class-properties"],
+    "plugins": ["@babel/proposal-class-properties", "@babel/plugin-transform-runtime"],
     "ignore": [
       "node_modules/**"
     ]
-  }
+}
