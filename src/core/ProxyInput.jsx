@@ -194,10 +194,10 @@ class ProxyInput extends React.PureComponent  {
         let val
 
         await this.verify(value, validate)
-        this.sendMessage('')
         
         
         !strict && _.defer(() => {
+            this.sendMessage('')
             this.setState({ message: '', invalid: false, valid: shouldNotfityValidity })
             shouldNotfityValidity && validMessage && this.info(validMessage)
             shouldNotfityValidity && onValid && onValid(val)
@@ -356,6 +356,7 @@ class ProxyInput extends React.PureComponent  {
         const defaultValue = _.get(this.props, 'ioProps.defaultValue')
         const dval = _.isFunction(defaultValue) ? defaultValue() : defaultValue
         this.setState({ value: dval || emptyValue, valid: false, invalid: false })
+        this.sendMessage('')
     }
 
     render() {
