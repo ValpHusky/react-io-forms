@@ -197,7 +197,7 @@ class ProxyInput extends React.PureComponent  {
         this.sendMessage('')
         
         
-        _.defer(() => {
+        !strict && _.defer(() => {
             this.setState({ message: '', invalid: false, valid: shouldNotfityValidity })
             shouldNotfityValidity && validMessage && this.info(validMessage)
             shouldNotfityValidity && onValid && onValid(val)
