@@ -72,6 +72,15 @@ class ProxyInput extends React.PureComponent  {
         }
 
         if (shouldrun) { this.runInitialValue() }
+        
+        if (prevValue.ioProps.message !== this.props.ioProps.message) {
+            if (this.props.ioProps.message) {
+                this.sendMessage(this.ioProps.message)
+            } else {
+                this.clearMessage()
+            }
+        }
+
     }
 
     componentDidMount() {

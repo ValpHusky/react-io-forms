@@ -60,7 +60,6 @@ export default class IOForm extends React.PureComponent {
                     const submitResult = onSubmit(values)
                     if (submitResult instanceof Promise) {
                         await submitResult
-                       
                     }
                     reset && this.reset()
                 } catch(e) {
