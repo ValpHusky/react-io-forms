@@ -77,6 +77,7 @@ class ProxyInput extends React.PureComponent  {
             if (this.props.ioProps.message) {
                 if (this.props.ioProps.invalid) {
                     this.error(this.ioProps.message)
+                    
                 } else {
                     this.info(this.ioProps.message)
                 }
@@ -84,6 +85,13 @@ class ProxyInput extends React.PureComponent  {
             } else {
                 this.clearMessage()
             }
+        }
+
+        if (prevValue.ioProps.invalid !== this.props.ioProps.invalid) {
+            this.setState({ invalid: !!this.props.ioProps.invalid })
+        }
+        if (prevValue.ioProps.valid !== this.props.ioProps.valid) {
+            this.setState({ valid: !!this.props.ioProps.valid })
         }
 
     }
