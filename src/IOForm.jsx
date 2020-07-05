@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import { MessageContext } from './ContextMessage'
 import { LinkageContext } from './ContextLinkage'
 import { InputError } from './core/InputError';
+import { set } from 'lodash';
 
 export const IOInputCollectorContext = React.createContext(null)
 
@@ -45,7 +46,7 @@ export default class IOForm extends React.PureComponent {
         if (obj instanceof FormData) {
             obj.append(name, value)
         } else if (_.isPlainObject(obj)) {
-            obj[name] = value
+            obj = set({ ...ob }, name, value )
         }
     }
 
