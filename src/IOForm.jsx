@@ -45,8 +45,9 @@ export default class IOForm extends React.PureComponent {
     serializeInto(obj, name, value) {
         if (obj instanceof FormData) {
             obj.append(name, value)
+            return obj
         } else if (_.isPlainObject(obj)) {
-            obj = set({ ...ob }, name, value )
+            return set({ ...ob }, name, value )
         }
     }
 
@@ -78,13 +79,13 @@ export default class IOForm extends React.PureComponent {
 
     async collect() {
         const { formdata } = this.props
-        const values = formdata ? new FormData() : {}
+        let values = formdata ? new FormData() : {}
         let fail = false
         
         for(const i in this.fields) {
             try {
                 const field = this.fields[i]
-                this.serializeInto(values, i, await field.collect(true))
+                values = this.serializeInto(values, i, await field.collect(true))
             } catch(e) {
                 if (e instanceof InputError) {
                     fail = true;
