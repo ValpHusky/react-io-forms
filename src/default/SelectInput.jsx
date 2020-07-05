@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { classNameCreate } from './utils';
+import { isEqual } from 'lodash';
 
 class SelectInput extends React.PureComponent {
     static propTypes = {
@@ -34,6 +35,17 @@ class SelectInput extends React.PureComponent {
         this.extractOptions()
     }
 
+    componentDidUpdate(prevProps) {
+        const { children: prevChildren } = prevProps
+        const { children } = this.props
+        const { options: prevOptions } = prevProps.ioProps
+        const { options } = this.props.ioProps
+
+        if (!isEqual(options, prevOptions) || prevChildren !== children) {
+            this.extractOptions()
+        }
+    }
+
     extractOptions() {
         const { children, setValue } = this.props
         const { options } = this.props.ioProps
@@ -64,7 +76,6 @@ class SelectInput extends React.PureComponent {
     render() {
         const { ioProps: { type, valid, invalid, message, name }, setValue, value, children, className = '', innerRef, ...rest } = this.props 
         const { options, checked } = this.state
-      console.log('testing github link on npm');
         return (
             <select
                 data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}

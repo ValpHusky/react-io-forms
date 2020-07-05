@@ -100,9 +100,9 @@
         /** Function to use as filter for any outgoing value from the I/O flow to be serialized */
         filterOut?: (value: any, name?: string) => any;
         /** Fields to link. Any value change will be propagated to the fields within the same IOForm that match the link name and the field name */
-        link?: string | Array<string>;
+        link?: string | string[];
         /** Options available by option selectable intpu fields. For example: Radio and Select */
-        options?: Array<IOInputOptions>;
+        options?: IOInputOptions[];
         /** Gets the reference of the inner input */
         innerRef?: (el: HTMLElement) => void | React.MutableRefObject;
         
