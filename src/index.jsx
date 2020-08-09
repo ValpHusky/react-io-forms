@@ -112,7 +112,7 @@ IOInput.propTypes = {
     /** Fields to link. Any value change will be propagated to the fields within the same IOForm that match the link name and the field name */
     link: PropTypes.oneOfType([ PropTypes.array, PropTypes.string ]),
     /** Options available by option selectable intpu fields. For example: Radio and Select */
-    options: PropTypes.object
+    options: PropTypes.array
 }
 
 IOInput.defaultProps = {

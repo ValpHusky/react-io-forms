@@ -57,12 +57,13 @@ class SelectInput extends React.PureComponent {
                 type={type}
                 onChange={(e) => setValue(e.target.value)}
                 ref={innerRef}
+                value={value}
                 {...rest}
             >
                 {options && options.map(option => (
                     <option
                         key={option.value}
-                        selected={option.value === value ? 'selected' : undefined}
+                        value={option.value}
                     >
                         {option.label}
                     </option>
