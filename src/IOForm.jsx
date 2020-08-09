@@ -4,6 +4,7 @@ import { MessageContext } from './ContextMessage'
 import { LinkageContext } from './ContextLinkage'
 import { InputError } from './core/InputError';
 import { set } from 'lodash';
+import { SkipFieldError } from './core/SkipFieldError';
 
 export const IOInputCollectorContext = React.createContext(null)
 
@@ -92,10 +93,9 @@ export default class IOForm extends React.PureComponent {
                 if (e instanceof InputError) {
                     fail = true;
                     this.notify(e)
-                } else {
+                } else if (!(e instanceof SkipFieldError)) {
                     console.error(e)
                 }
-
             }
         }
         return fail ? null : values

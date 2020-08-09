@@ -38,9 +38,8 @@ class FileInput extends React.PureComponent {
                 data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
                 name={name}
                 type={type}
-                innerRef={(e) => { this.fileinput = e }}
+                ref={(e) => { this.fileinput = e }}
                 onChange={this.onChange}
-                ref={innerRef}
                 {...rest}
             />
         )
