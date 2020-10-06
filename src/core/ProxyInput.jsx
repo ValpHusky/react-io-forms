@@ -30,6 +30,7 @@ class ProxyInput extends React.PureComponent  {
     controllerReference = null
     Component = null
     state = {}
+    mounted = false
 
     constructor(props) {
         super(props)
@@ -98,7 +99,8 @@ class ProxyInput extends React.PureComponent  {
     componentDidMount() {
         const { contextProps } = this.props
         const { name } = this.props.ioProps
- 
+        
+        this.mounted = true
         if(this.validProps(this.props)) {
             
             const form = _.get(contextProps, 'form.register')
@@ -114,6 +116,7 @@ class ProxyInput extends React.PureComponent  {
         const { contextProps } = this.props
         const { name } = this.props.ioProps
 
+        this.mounted = false
         const form = _.get(contextProps, 'form.unregister')
         const linkage = _.get(contextProps, `linkage.unregister`)
 
@@ -121,6 +124,12 @@ class ProxyInput extends React.PureComponent  {
         linkage && linkage(name, this.controllerReference)
 
         this.observer = new Observable()
+    }
+
+    setState(...args) {
+        if (this.mounted) {
+            super.setState(...args)
+        }
     }
 
     async runInitialValue() {
