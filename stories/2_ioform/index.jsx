@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import IOForm from '../../src/';
 import { storiesOf } from '@storybook/react';
@@ -19,11 +19,11 @@ stories.add('onSubmit', () => (
     <IOForm reset onSubmit={(values) => { action('Submit')(values) }}>
       <h4>With a simple callback function</h4>
       <div className="iof-group">
-        <label for="username">Username</label>
+        <label htmlFor="username">Username</label>
         <IOForm.Input id="username" name="username" />
       </div>
       <div className="iof-group">
-        <label for="password">Password</label>
+        <label htmlFor="password">Password</label>
         <IOForm.Input  name="password" type="password" />
       </div>
       <div>
@@ -43,11 +43,11 @@ stories.add('onSubmit', () => (
     }}>
       <h4>With an async (Promise returning) callback function</h4>
       <div>
-        <label for="username">Username</label>
+        <label htmlFor="username">Username</label>
         <IOForm.Input id="username" name="username" />
       </div>
       <div>
-        <label for="password">Password</label>
+        <label htmlFor="password">Password</label>
         <IOForm.Input  name="password" type="password" />
       </div>
       <div>
@@ -67,11 +67,11 @@ stories.add('onSubmit', () => (
 stories.add('Reset', () => (
   <IOForm reset={boolean('Reset', false)} onSubmit={action('Submit')}>
     <div className="iof-group">
-      <label for="username">Username</label>
+      <label htmlFor="username">Username</label>
       <IOForm.Input id="username" name="username" />
     </div>
     <div className="iof-group">
-      <label for="password">Password</label>
+      <label htmlFor="password">Password</label>
       <IOForm.Input  name="password" type="password" />
     </div>
     <div>
@@ -100,11 +100,11 @@ stories.add('Lock', () => (
     return
   }}>
     <div className="iof-group">
-      <label for="username">Username</label>
+      <label htmlFor="username">Username</label>
       <IOForm.Input id="username" name="username" />
     </div>
     <div className="iof-group">
-      <label for="password">Password</label>
+      <label htmlFor="password">Password</label>
       <IOForm.Input  name="password" type="password" />
     </div>
     <div>
@@ -125,11 +125,11 @@ stories.add('Lock', () => (
 stories.add('FormData', () => (
   <IOForm formdata={boolean('FormData', true)} reset={boolean('Reset', false)} onSubmit={action('Submit')}>
     <div className="iof-group">
-      <label for="username">Username</label>
+      <label htmlFor="username">Username</label>
       <IOForm.Input id="username" name="username" />
     </div>
     <div className="iof-group">
-      <label for="password">Password</label>
+      <label htmlFor="password">Password</label>
       <IOForm.Input  name="password" type="password" />
     </div>
     <div>
@@ -147,23 +147,29 @@ stories.add('FormData', () => (
 // Knobs for React props
 stories.add('onValidity', () => {
   return (
-    <IOForm onValidity={action('Validity')} reset={boolean('Reset', false)} onSubmit={action('Submit')}>
-      <div className="iof-group">
-        <label for="username">Username</label>
-        <IOForm.Input required validate={(l => v => v.length > l)(number('Username minimum Length', 8))} id="username" name="username" />
-      </div>
-      <div className="iof-group">
-        <label for="password">Password</label>
-        <IOForm.Input required validate={(l => v => v.length > l)(number('Password Minimum Length', 8))} name="password" type="password" />
-      </div>
-      <div className="iof-group">
-        <label for="displayname">Display Name</label>
-        <IOForm.Input defaultValue={text('Display Name','John')} validate={(l => v => v.length > l)(number('Display Name minimum length', 3))} name="displayname" type="text" />
-      </div>
-      <div>
-        <button type="submit">Submit</button>
-      </div>
-    </IOForm>
+    <React.Fragment>
+      <IOForm onValidity={action('Validity')} reset={boolean('Reset', false)} onSubmit={action('Submit')}>
+        <div className="iof-group">
+          <label htmlFor="username">Username</label>
+          <IOForm.Input required validate={(l => v => v.length > l)(number('Username minimum Length', 8))} id="username" name="username" />
+        </div>
+        <div className="iof-group">
+          <label htmlFor="password">Password</label>
+          <IOForm.Input required validate={(l => v => v.length > l)(number('Password Minimum Length', 8))} name="password" type="password" />
+        </div>
+        <div className="iof-group">
+          <label htmlFor="displayname">Display Name</label>
+          <IOForm.Input defaultValue={text('Display Name','John')} validate={(l => v => v.length > l)(number('Display Name minimum length', 3))} name="displayname" type="text" />
+        </div>
+        <div className="iof-group">
+          <label htmlFor="mightBeRequired">Might be required</label>
+          <IOForm.Input defaultValue="" required={boolean('Mark as required', false)} name="mightBeRequired" type="text" />
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </IOForm>
+    </React.Fragment>
   )
 }, {
   readme: {

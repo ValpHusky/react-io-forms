@@ -136,6 +136,16 @@ class ProxyInput extends React.PureComponent  {
         const { required, validate } = this.props.ioProps
         const { value } = this.state
 
+        /*
+         * Added a case where an input changes it's required prop to true,
+         * so the form gets a notification if it's valid with this new component
+        */ 
+        if (required && this.isEmptyValue(value)) {
+          this.setValidity(false)
+          this.clearMessage()
+          return;
+        }
+
         if (!required && this.isEmptyValue(value)) {
             this.setValidity(true)
             this.clearMessage()
