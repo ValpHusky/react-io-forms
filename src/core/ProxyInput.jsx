@@ -188,7 +188,7 @@ class ProxyInput extends React.PureComponent  {
 
     isEmptyValue(value) {
         const emptyValue = _.get(this.Component, 'emptyValue', '')
-        return (value === null || value === undefined || this.isEqual(value, emptyValue))
+        return (value === null || value === undefined || value === '' || this.isEqual(value, emptyValue))
     }
 
     setValidity = (state) => {

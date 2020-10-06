@@ -122,6 +122,8 @@
         formdata?: boolean;
         /** Triggered when validity changes; all the fields have achieved validity (true) or one them of them hasn't (false) */
         onValidity?: (state: boolean) => void
+        /** Form JSX Element props */
+        innerProps?: React.HTMLProps<HTMLFormElement>
     }
 
     export interface IOInputMessageProps {

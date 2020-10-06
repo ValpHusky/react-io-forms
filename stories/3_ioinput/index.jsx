@@ -1,6 +1,6 @@
 import React from 'react';
 
-import IOForm from '../../src';
+import IOForm, { IOInputMessage } from '../../src';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
@@ -47,7 +47,8 @@ stories.add('Type', () => (
     </div>
     <div className="iof-group">
       <label htmlFor="password">Options</label>
-      <IOForm.Input  name="options" type="select">
+      <IOForm.Input required name="options" type="select" onInvalid={() => console.log('Invalid')}>
+          <option>Select one</option>
           <opition value="1">1st Option</opition>
           <opition value="2">2nd Option</opition>
           <opition value="3">3rd Option</opition>

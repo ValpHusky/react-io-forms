@@ -22,7 +22,10 @@ export default class IOForm extends React.PureComponent {
         /** Indicates that the data should be serialized as a FormData object */
         formdata: PropTypes.bool,
         /** Triggered when validity changes; all the fields have achieved validity (true) or one them of them hasn't (false) */
-        onValidity: PropTypes.func
+        onValidity: PropTypes.func,
+        /** Send props to the form JSX element */
+        innerProps: PropTypes.object
+
     }
     static defaultProps = {
         lock: false,
@@ -82,7 +85,6 @@ export default class IOForm extends React.PureComponent {
         const { formdata } = this.props
         let values = formdata ? new FormData() : {}
         let fail = false
-        const keys = Object.keys(this.fields)
         for(const i in this.fields) {
             
             try {
@@ -145,11 +147,12 @@ export default class IOForm extends React.PureComponent {
     }
 
     render() {
+        const { innerProps } = this.props
         return (
             <MessageContext>
                 <LinkageContext>
                     <IOInputCollectorContext.Provider value={{ register: this.register, unregister: this.unregister, setValidity: this.setValidity }}>
-                        <form className="iof-main" onReset={this.onReset} id={this.props.id || undefined} onSubmit={this.onSubmit}>
+                        <form className="iof-main" onReset={this.onReset} id={this.props.id || undefined} onSubmit={this.onSubmit} {...innerProps}>
                             <button style={{ display: 'none' }} />
                             {this.props.children}
                         </form>

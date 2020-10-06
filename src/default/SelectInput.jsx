@@ -4,7 +4,7 @@ import { isEqual } from 'lodash';
 
 class SelectInput extends React.PureComponent {
     /** Indicates the ProxyInput layer what value should be taken as default */
-    static emptyValue = null
+    static emptyValue = ''
 
     state = { options: [] }
 
@@ -31,9 +31,8 @@ class SelectInput extends React.PureComponent {
             const synOptions = []
             React.Children.forEach(children, element => {
                 if (!React.isValidElement(element)) return
-              
-                const { value, children: label } = element.props
-                value && synOptions.push({ value, label })
+                const { value: extractedValue, children: label } = element.props
+                synOptions.push({ value: extractedValue, label })
             })
             const v = value || defaultValue || (synOptions[0] ? synOptions[0].value : null)
             setValue(v)
@@ -55,15 +54,15 @@ class SelectInput extends React.PureComponent {
                 data-message={message} className={`${classNameCreate(type, valid, invalid)} ${className}`.trim()}
                 name={name}
                 type={type}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => { console.log(e.target.value); setValue(e.target.value)}}
                 ref={innerRef}
-                value={value}
+                value={value || ''}
                 {...rest}
             >
-                {options && options.map(option => (
+                {options && options.map((option, index) => (
                     <option
-                        key={option.value}
-                        value={option.value}
+                        key={option.value || index}
+                        value={option.value || ''}
                     >
                         {option.label}
                     </option>
