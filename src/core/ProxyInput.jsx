@@ -398,7 +398,7 @@ class ProxyInput extends React.PureComponent  {
         const defaultValue = _.get(this.props, 'ioProps.defaultValue')
         const dval = _.isFunction(defaultValue) ? defaultValue() : defaultValue
         this.setState({ value: dval || emptyValue, valid: false, invalid: false })
-        this.sendMessage('')
+        this.clearMessage()
     }
 
     render() {
